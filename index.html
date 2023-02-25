@@ -22,7 +22,7 @@
 
         /* the style of the layer control menu */
         #menu {
-            background: #fff;
+            background: rgba(255, 255, 0.9);
             position: absolute;
             z-index: 1;
             top: 10px;
@@ -65,6 +65,18 @@
         #menu a.active:hover {
             background: #3074a4;
         }
+
+        #title {
+            font-family:'Times New Roman', Times, serif;
+            font-size: 15pt;
+            color: purple
+        }
+
+        #subtitle {
+            font-family:'Times New Roman', Times, serif;
+            font-size: 12pt;
+            color: purple
+        }
     </style>
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js"></script>
 </head>
@@ -72,6 +84,16 @@
 <body>
     <nav id="menu"></nav>
     <div id='map'></div>
+        <div id="title">
+            Lab 4- Map Tiles
+        </div>
+        <div id="subtitle">
+            This map displays 4 seperate maps. One map is the blue monochrome basemap.
+            Another one of the maps is a street map of abandoned roads in Washington State. Another map 
+            is the monochrome basemap with the abandoned Washington roads data from the street map layered on top of it. 
+            And the final map is a theme map of the abandoned roads in washington.You are able to toggle between these 4 different 
+            maps using a toggle function.
+        </div>
     <script type="text/javascript">
         mapboxgl.accessToken =
             'pk.eyJ1IjoiamFrb2J6aGFvIiwiYSI6ImNpcms2YWsyMzAwMmtmbG5icTFxZ3ZkdncifQ.P9MBej1xacybKcDN_jehvw';
@@ -84,40 +106,76 @@
 
         map.on('load', () => { //simplifying the function statement: arrow with brackets to define a function
 
-            map.addSource('uw-tiles', {
+            map.addSource('basemap', {
                 'type': 'raster',
                 'tiles': [
-                    'assets/uw/{z}/{x}/{y}.png'
+                    'assets/basemap/{z}/{x}/{y}.png'
                 ],
                 'tileSize': 256,
-                'attribution': 'Map tiles designed by Bo Zhao</a>'
+                'attribution': 'Map tiles designed by Kya Rice</a>'
             });
 
-            map.addSource('lgbtq-tiles', {
+            map.addSource('map2', {
                 'type': 'raster',
                 'tiles': [
-                    'assets/lgbtq/{z}/{x}/{y}.png'
+                    'assets/map2/{z}/{x}/{y}.png'
                 ],
                 'tileSize': 256,
-                'attribution': 'Map tiles designed by Bo Zhao'
+                'attribution': 'Map tiles designed by Kya Rice'
+            });
+
+            map.addSource('map3', {
+                'type': 'raster',
+                'tiles': [
+                    'assets/map3/{z}/{x}/{y}.png'
+                ],
+                'tileSize': 256,
+                'attribution': 'Map tiles designed by Kya Rice'
+            });
+
+            map.addSource('map4', {
+                'type': 'raster',
+                'tiles': [
+                    'assets/map4/{z}/{x}/{y}.png'
+                ],
+                'tileSize': 256,
+                'attribution': 'Map tiles designed by Kya Rice'
             });
 
             map.addLayer({
-                'id': 'uw',
+                'id': 'monochrome basemap',
                 'type': 'raster',
                 'layout': {
                     'visibility': 'none'
                 },
-                'source': 'uw-tiles'
+                'source': 'basemap'
             });
 
             map.addLayer({
-                'id': 'lgbtq',
+                'id': 'abandoned roads theme',
                 'type': 'raster',
                 'layout': {
                     'visibility': 'none'
                 },
-                'source': 'lgbtq-tiles'
+                'source': 'map4'
+            });
+
+            map.addLayer({
+                'id': 'abandoned roads',
+                'type': 'raster',
+                'layout': {
+                    'visibility': 'none'
+                },
+                'source': 'map2'
+            });
+
+            map.addLayer({
+                'id': 'abandoned roads and basemap',
+                'type': 'raster',
+                'layout': {
+                    'visibility': 'none'
+                },
+                'source': 'map3'
             });
 
         });
@@ -126,12 +184,12 @@
         // After the last frame rendered before the map enters an "idle" state.
         map.on('idle', () => {
             // If these two layers were not added to the map, abort
-            if (!map.getLayer('uw') || !map.getLayer('lgbtq')) {
+            if (!map.getLayer('monochrome basemap') || !map.getLayer('abandoned roads theme') || !map.getLayer('abandoned roads') || !map.getLayer('abandoned roads and basemap')) {
                 return;
             }
 
             // Enumerate ids of the layers.
-            const toggleableLayerIds = ['uw', 'lgbtq'];
+            const toggleableLayerIds = ['abandoned roads and basemap', 'abandoned roads', 'abandoned roads theme', 'abandoned roads theme'];
 
             // Set up the corresponding toggle button for each layer.
             for (const id of toggleableLayerIds) {
