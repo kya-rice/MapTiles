@@ -33,4 +33,4 @@ This is a tileset that was created using the monochrome basemap (map 1) and laye
 
 ![map4](/img/map4.png "map4.png")
 
-For this map I created it using a tileset that I created using MapbBox Cartogram feature in order to maintain the abondoned road theme. Here I uplaoded an image of an abandoned road which produced this "muddy" looking basemap map. I then added the abdoned roads data as a layer onto this map.
+For this map I created it using a tileset that I created using MapBox Cartogram feature in order to maintain the abondoned road theme. Here I uplaoded an image of an abandoned road which produced this "muddy" looking basemap map. I then added the abdoned roads data as a layer onto this map.
